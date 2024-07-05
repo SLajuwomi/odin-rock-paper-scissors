@@ -1,29 +1,11 @@
-/* Rock Paper Scissors
- this is a computer vs. user game
- the computer will need a randomly selected rps (rock/paper/scissors)
- use Math.random - Math.random returns 0, assign computer variable to rock. returns 1 - assign paper. - returns 2 assign scissors
- create variables to store rock, paper, and scissors ( for both user and computer)
- ask user to input their choice of rock/paper/scissors
- if rock is put against paper, the user who has paper wins! display win/loss message to user
- if rock is put against scissors, the user who has rock wins. display win/loss message to user
- if paper is put against scissors, the user who has scissors wins
- the game will keep track of score
- make a counter for both the user and the computer that increments by 1 every time 
- the game will play 5 times - make a function that loops a round 5 times
-*/
-
-// Declare global variables
 let computerChoice = "";
 let userChoice = "";
 let userScore = 0;
 let computerScore = 0;
 
-// Give the computer a random value
 function getComputerChoice(computerChoice) {
- // Use random function to get a number between 0, 1, and 2
   let randomNumber = Math.floor(Math.random() * 3);
 
- // Based on random number set the value of computerChoice to rps
   if (randomNumber === 0) {
     computerChoice = "rock";
   } else if (randomNumber === 1) {
@@ -35,29 +17,34 @@ function getComputerChoice(computerChoice) {
   return computerChoice;
 }
 
-// Get the choice of the user using a prompt
 function getUserChoice(userChoice) {
-  userChoice = prompt("Rock, Paper or Scissors? ");
- // Make the input case-insensitive
-  let lowerUserChoice = userChoice.toLowerCase();
+  const button = document.querySelector(button);
 
- // Validate that the user inputs a proper value using user &&
+  // userChoice = prompt("Rock, Paper or Scissors? ");
+
+  let lowerCaseUserChoice = userChoice.toLowerCase();
+
   if (
-    lowerUserChoice != "rock" &&
-    lowerUserChoice != "paper" &&
-    lowerUserChoice != "scissors"
+    lowerCaseUserChoice != "rock" &&
+    lowerCaseUserChoice != "paper" &&
+    lowerCaseUserChoice != "scissors"
   ) {
     alert("Not a valid choice!");
   } else {
-    userChoice = lowerUserChoice;
+    userChoice = lowerCaseUserChoice;
   }
 
   return userChoice;
 }
 
-//Play a round of the game - compare user and computer choice, based on answers determine who won round by game logic, increment their score variable by 1
 function playRound(userChoice, computerChoice) {
+const results = document.querySelector("#results")
+
+
   if (computerChoice == "paper" && userChoice == "rock") {
+    const paperWins = document.createElement("p")
+    paperWins.textContent = "Paper beats rock. You lose!"
+    results.appendChild(paperWins)
     console.log("Paper beats rock. You lose!");
     computerScore++;
   } else if (computerChoice == "rock" && userChoice == "scissors") {
@@ -80,23 +67,25 @@ function playRound(userChoice, computerChoice) {
   }
 }
 
+const button = document.querySelector("#options");
+const rockButton = document.querySelector("#rock");
+const paperButton = document.querySelector("#paper");
+const scissorsButton = document.querySelector("#scissors");
 
-// loop that runs 5 times based on counter
-function playGame() {
-  let counter = 0;
-  while (counter < 5) {
-    let computerSelection = getComputerChoice();
-    let userSelection = getUserChoice();
-    playRound(userSelection, computerSelection);
-    console.log("User score: " + userScore);
-    console.log("Computer score: " + computerScore);
-    counter++;
+computerChoice = getComputerChoice();
+
+button.addEventListener("click", (e) => {
+  const target = e.target;
+
+  switch (target.id) {
+    case "rock":
+      playRound(rockButton.textContent.toLowerCase(), computerChoice);;
+      break;
+    case "paper":
+      playRound(paperButton.textContent.toLowerCase(), computerChoice);
+      break;
+    case "scissors":
+      playRound(scissorsButton.textContent.toLowerCase(), computerChoice);
+      break;
   }
-}
-
-// console.log("User selection: " + userSelection);
-// console.log("Computer selection: " + computerSelection);
-// playRound(userSelection, computerSelection);
-// console.log("User score: " + userScore);
-// console.log("Computer score: " + computerScore);
-playGame();
+});
